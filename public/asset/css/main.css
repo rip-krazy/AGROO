@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+body{
+    box-sizing: border-box;
+    background-size: cover;
+}
+.img{
+    display: flex;
+    width: 70px;
+    height: 70px;
+    padding-right: 700px;
+    background-size: cover;
+}
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 20px 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease-out;
+    backdrop-filter: blur(8px) brightness(1.2);
+    -webkit-backdrop-filter: blur(8px) brightness(1.2);
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    color: black;
+    font-size: 16px;
+    gap:30px;
+}
+nav .img {
+    display: flex;
+    align-items: center;
+}
+
+nav .nav-logo {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image covers the container */
+}
+nav a{
+    text-decoration: none;
+    color:black;
+}
+nav a:hover{
+    color:lightskyblue;
+    transition:all 0.5s ease 0s;
+}
+footer {
+    display: flex;
+    justify-content: center; /* Space between text and icons */
+    align-items: center; /* Center items vertically */
+    padding: 15px;
+    background: #007BFF;
+    color: white;
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    bottom: 0;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    margin-right: 5px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px; /* Space between icons */
+}
+
+.social-icons a {
+    color: #fff; /* Icon color */
+    font-size: 24px; /* Icon size */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.social-icons a:hover {
+    color: lightskyblue; /* Change color on hover */
+}

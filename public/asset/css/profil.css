@@ -1,0 +1,31 @@
+body{
+    box-sizing: border-box;
+    background-size: cover;
+}
+.img{
+    display: flex;
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+}
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 20px 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease-out;
+    backdrop-filter: blur(8px) brightness(1.2);
+    -webkit-backdrop-filter: blur(8px) brightness(1.2);
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    color: white;
+    font-size: 16px;
+    gap:20px;
+}
+nav a{
+    text-decoration: none;
+    color:white;
+}
