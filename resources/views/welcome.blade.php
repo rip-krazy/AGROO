@@ -89,11 +89,11 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-primary-700 hover:text-primary-500 font-medium transition-colors duration-300">Beranda</a>
-                    <a href="#about" class="text-primary-700 hover:text-primary-500 font-medium transition-colors duration-300">Tentang</a>
-                    <a href="#facilities" class="text-primary-700 hover:text-primary-500 font-medium transition-colors duration-300">Fasilitas</a>
-                    <a href="#gallery" class="text-primary-700 hover:text-primary-500 font-medium transition-colors duration-300">Galeri</a>
-                    <a href="#contact" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl">Kontak</a>
+                    <a href="{{ route('admin.dashboard') }}" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+                        Dashboard
+                    </a>
+                    <a href="#" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl">Login</a>
+                      <a href="#" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl">Register</a>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -359,52 +359,21 @@
 
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
                     <h3 class="text-2xl font-semibold text-white mb-6">Kirim Pesan</h3>
-                    
-                    <!-- Alert Messages -->
-                    <div id="alert-success" class="hidden mb-4 p-4 rounded-lg bg-green-500/20 border border-green-500/30 text-white">
-                        <div class="flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span id="success-message"></span>
-                        </div>
-                    </div>
-                    
-                    <div id="alert-error" class="hidden mb-4 p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-white">
-                        <div class="flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                            <span id="error-message"></span>
-                        </div>
-                    </div>
-                    
-                    <form id="contact-form" class="space-y-4">
+                    <form class="space-y-4">
                         <div>
-                            <input type="text" name="name" id="name" placeholder="Nama Lengkap" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent">
-                            <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                            <input type="text" placeholder="Nama Lengkap" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent">
                         </div>
                         <div>
-                            <input type="email" name="email" id="email" placeholder="Email" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent">
-                            <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                            <input type="email" placeholder="Email" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent">
                         </div>
                         <div>
-                            <input type="tel" name="phone" id="phone" placeholder="Nomor Telepon" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent">
-                            <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                            <input type="tel" placeholder="Nomor Telepon" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent">
                         </div>
                         <div>
-                            <textarea rows="4" name="message" id="message" placeholder="Pesan Anda" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent resize-none"></textarea>
-                            <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                            <textarea rows="4" placeholder="Pesan Anda" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent resize-none"></textarea>
                         </div>
-                        <button type="submit" id="submit-btn" class="w-full bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                            <span id="submit-text">Kirim Pesan</span>
-                            <span id="loading-text" class="hidden">
-                                <svg class="inline w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Mengirim...
-                            </span>
+                        <button type="submit" class="w-full bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors duration-300">
+                            Kirim Pesan
                         </button>
                     </form>
                 </div>
@@ -521,124 +490,12 @@
             }
         });
 
-        // Enhanced form submission with AJAX
-        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+        // Form submission (placeholder)
+        document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const form = this;
-            const submitBtn = document.getElementById('submit-btn');
-            const submitText = document.getElementById('submit-text');
-            const loadingText = document.getElementById('loading-text');
-            const successAlert = document.getElementById('alert-success');
-            const errorAlert = document.getElementById('alert-error');
-            const successMessage = document.getElementById('success-message');
-            const errorMessage = document.getElementById('error-message');
-            
-            // Hide previous alerts
-            successAlert.classList.add('hidden');
-            errorAlert.classList.add('hidden');
-            
-            // Clear previous error messages
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.classList.add('hidden');
-                el.textContent = '';
-            });
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            submitText.classList.add('hidden');
-            loadingText.classList.remove('hidden');
-            
-            try {
-                const formData = new FormData(form);
-                
-                // Get CSRF token from meta tag (add this to your HTML head)
-                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-                
-                const response = await fetch('/contact', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json',
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Show success message
-                    successMessage.textContent = data.message;
-                    successAlert.classList.remove('hidden');
-                    
-                    // Reset form
-                    form.reset();
-                    
-                    // Scroll to success message
-                    successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                } else {
-                    throw new Error(data.message || 'Terjadi kesalahan');
-                }
-                
-            } catch (error) {
-                console.error('Contact form error:', error);
-                
-                // Handle validation errors
-                if (error.response && error.response.status === 422) {
-                    const errors = await error.response.json();
-                    
-                    // Show field-specific errors
-                    Object.keys(errors.errors || {}).forEach(field => {
-                        const input = document.getElementById(field);
-                        if (input) {
-                            const errorDiv = input.nextElementSibling;
-                            if (errorDiv && errorDiv.classList.contains('error-message')) {
-                                errorDiv.textContent = errors.errors[field][0];
-                                errorDiv.classList.remove('hidden');
-                            }
-                        }
-                    });
-                    
-                    errorMessage.textContent = 'Mohon periksa kembali data yang Anda masukkan.';
-                } else {
-                    errorMessage.textContent = error.message || 'Maaf, terjadi kesalahan. Silakan coba lagi atau hubungi kami langsung.';
-                }
-                
-                errorAlert.classList.remove('hidden');
-                errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                submitText.classList.remove('hidden');
-                loadingText.classList.add('hidden');
-            }
+            alert('Terima kasih! Pesan Anda telah dikirim. Kami akan segera menghubungi Anda.');
+            this.reset();
         });
-        
-        // Input validation on blur
-        document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(input => {
-            input.addEventListener('blur', function() {
-                const errorDiv = this.nextElementSibling;
-                if (errorDiv && errorDiv.classList.contains('error-message')) {
-                    if (this.hasAttribute('required') && !this.value.trim()) {
-                        errorDiv.textContent = 'Field ini wajib diisi.';
-                        errorDiv.classList.remove('hidden');
-                    } else if (this.type === 'email' && this.value && !isValidEmail(this.value)) {
-                        errorDiv.textContent = 'Format email tidak valid.';
-                        errorDiv.classList.remove('hidden');
-                    } else {
-                        errorDiv.classList.add('hidden');
-                        errorDiv.textContent = '';
-                    }
-                }
-            });
-        });
-        
-        // Email validation helper
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
 
         // Add intersection observer for animations
         const observerOptions = {
