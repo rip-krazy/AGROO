@@ -34,11 +34,11 @@ Route::resource('admin/stock', StockController::class)->names([
 ]);
 
 // Routes untuk Memo
-Route::get('/memo', [MemoController::class, 'index'])->name('memo.index');
-Route::get('/memo/create', [MemoController::class, 'create'])->name('memo.create');
+Route::get('admin/memo', [MemoController::class, 'index'])->name('admin.memo.index');
+Route::get('admin/memo/create', [MemoController::class, 'create'])->name('memo.create');
 // Tambahkan route lain untuk memo sesuai kebutuhan
 
 // Routes untuk Arsip
-Route::get('/arsip', [ArsipController::class, 'index'])->name('arsip.index');
-Route::get('/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
+Route::get('admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip.index');
+Route::get('admin/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
 // Tambahkan route lain untuk arsip sesuai kebutuhan
