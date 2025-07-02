@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\MemoController;
+use App\Http\Controllers\ArsipController;
 
 
 /*
@@ -31,4 +33,12 @@ Route::resource('admin/stock', StockController::class)->names([
     'destroy' => 'admin.stock.destroy',
 ]);
 
+// Routes untuk Memo
+Route::get('/memo', [MemoController::class, 'index'])->name('memo.index');
+Route::get('/memo/create', [MemoController::class, 'create'])->name('memo.create');
+// Tambahkan route lain untuk memo sesuai kebutuhan
 
+// Routes untuk Arsip
+Route::get('/arsip', [ArsipController::class, 'index'])->name('arsip.index');
+Route::get('/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
+// Tambahkan route lain untuk arsip sesuai kebutuhan

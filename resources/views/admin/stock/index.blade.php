@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Stok Barang</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('home')
+
+@section('content')
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -36,40 +31,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
-</head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
-<div class="flex h-screen">
-    <!-- Enhanced Sidebar -->
-    <div class="hidden md:flex md:flex-shrink-0">
-        <div class="flex flex-col w-64 bg-gradient-to-b from-indigo-900 to-purple-900 shadow-2xl">
-            <div class="flex items-center justify-center h-16 bg-black bg-opacity-20 backdrop-blur-sm">
-                <span class="text-white font-bold text-xl flex items-center">
-                    <i class="fas fa-hotel mr-2 text-yellow-400"></i>
-                    Grand Luxury Hotel
-                </span>
-            </div>
-            <div class="flex flex-col flex-grow pt-8 overflow-y-auto">
-                <div class="flex flex-col flex-1 px-4 space-y-3">
-                    <a href="{{ route('admin.dashboard') }}" class="bg-white bg-opacity-10 backdrop-blur-sm flex items-center px-4 py-3 text-white rounded-xl hover:bg-opacity-20 transition-all duration-300 group">
-                        <i class="fas fa-home w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                        Dashboard
-                    </a>
-                    <a href="{{ route('admin.stock') }}" class="bg-indigo-600 bg-opacity-80 flex items-center px-4 py-3 text-white rounded-xl shadow-lg border-l-4 border-yellow-400">
-                        <i class="fas fa-boxes w-5 h-5 mr-3"></i>
-                        Stock
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-3 text-white rounded-xl hover:bg-white hover:bg-opacity-10 transition-all duration-300 group">
-                        <i class="fas fa-door-open w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                        Unit
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-3 text-white rounded-xl hover:bg-white hover:bg-opacity-10 transition-all duration-300 group">
-                        <i class="fas fa-user w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                        User
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <div class="flex flex-col flex-1 overflow-y-auto">
@@ -241,5 +202,4 @@
         });
     });
 </script>
-</body>
-</html>
+@endsection
