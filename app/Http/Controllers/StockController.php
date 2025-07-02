@@ -30,7 +30,7 @@ class StockController extends Controller
             'satuan' => 'required|string|max:50',
         ]);
 
-        // Assuming you have a Stock model to handle the database interaction
+        
         \App\Models\Stock::create($validatedData);
 
         return redirect()->route('admin.stock')->with('success', 'Stock item created successfully.');
