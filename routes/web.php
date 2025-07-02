@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StockController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,8 +22,13 @@ Route::get('/', function () {
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::resource('admin/stock', StockController::class)
-    ->only(['index'])
-    ->names([
-        'index' => 'admin.stock',
-    ]);
+Route::resource('admin/stock', StockController::class)->names([
+    'index'   => 'admin.stock',
+    'create'  => 'admin.stock.create',
+    'store'   => 'admin.stock.store',
+    'edit'    => 'admin.stock.edit',
+    'update'  => 'admin.stock.update',
+    'destroy' => 'admin.stock.destroy',
+]);
+
+
