@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('tipe'); // Standard, Deluxe, Suite, etc.
+            $table->string('lokasi');
+            $table->string('status')->default('Tersedia'); // Tersedia, Dalam Perawatan, Dipesan, Tidak Tersedia
+            $table->integer('kapasitas')->default(2);
+            $table->decimal('harga', 12, 2); // Harga per malam
             $table->text('deskripsi')->nullable();
-            $table->string('lokasi')->nullable();
             $table->date('tanggal')->nullable(); // atau datetime jika diperlukan
             $table->timestamps();
         });

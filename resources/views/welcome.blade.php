@@ -404,7 +404,7 @@
                 </h2>
                 
                 <!-- Subtitle -->
-                <p class="text-lg md:text-xl text-primary-600 mb-8 animate-fade-in" style="animation-delay: 1s;">
+                <p class="text-lg md:text-xl text-primary-100 mb-8 animate-fade-in" style="animation-delay: 1s;">
                     Menjelajahi Keindahan Alam & Wisata Edukasi
                 </p>
 
@@ -416,7 +416,7 @@
                 </div>
 
                 <!-- Loading Text -->
-                <p class="text-primary-500 font-medium animate-pulse" id="loading-text">
+                <p class="text-primary-100 font-medium animate-pulse" id="loading-text">
                     Sedang memuat...
                 </p>
             </div>
