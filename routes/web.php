@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ArsipController;
+use App\Http\Controllers\UnitController;
 
 
 /*
@@ -20,6 +21,10 @@ use App\Http\Controllers\ArsipController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/welcome2', function () {
+    return view('welcome2');
 });
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
@@ -41,4 +46,14 @@ Route::get('admin/memo/create', [MemoController::class, 'create'])->name('memo.c
 // Routes untuk Arsip
 Route::get('admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip.index');
 Route::get('admin/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
+
 // Tambahkan route lain untuk arsip sesuai kebutuhan
+
+Route::resource('admin/unit', UnitController::class)->names([
+    'index'   => 'admin.unit',
+    'create'  => 'admin.unit.create',
+    'store'   => 'admin.unit.store',
+    'edit'    => 'admin.unit.edit',
+    'update'  => 'admin.unit.update',
+    'destroy' => 'admin.unit.destroy',
+]);
