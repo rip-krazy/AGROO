@@ -122,7 +122,7 @@
                 <div class="p-4">
                     <h3 class="text-base font-semibold text-gray-800 mb-2">Kelola Unit Kamar</h3>
                     <p class="text-xs text-gray-600 mb-3">Kelola status dan inventaris kamar</p>
-                    <a href="#" class="inline-block bg-green-600 text-white px-3 py-1 text-xs rounded-md hover:bg-green-700 transition duration-300">
+                    <a href="{{ route('admin.unit') }}" class="inline-block bg-green-600 text-white px-3 py-1 text-xs rounded-md hover:bg-green-700 transition duration-300">
                         Lihat Kamar <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>

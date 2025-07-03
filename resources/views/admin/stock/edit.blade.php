@@ -1,55 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Barang - {{ $stock->nama_barang }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('home')
+
+@section('content')
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
         }
-        .edit-gradient {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        .input-focus:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-        .btn-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .card-hover {
             transition: all 0.3s ease;
         }
-        .btn-gradient:hover {
+        .card-hover:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        .btn-update {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        .btn-primary {
+            background: #3b82f6;
+            transition: all 0.3s ease;
         }
-        .btn-update:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(79, 172, 254, 0.4);
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
-        .animate-slide-up {
-            animation: slideUp 0.6s ease-out;
+        .btn-secondary {
+            background: #6b7280;
+            transition: all 0.3s ease;
         }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-1px);
+        }
+        .btn-warning {
+            background: #f59e0b;
+            transition: all 0.3s ease;
+        }
+        .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+        }
+        .btn-success {
+            background: #10b981;
+            transition: all 0.3s ease;
+        }
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .floating-label {
+        .form-input {
             transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
         }
-        .input-group:focus-within .floating-label {
-            transform: translateY(-24px) scale(0.9);
-            color: #667eea;
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
         }
-        .input-group input:not(:placeholder-shown) + .floating-label,
-        .input-group select:not([value=""]) + .floating-label {
-            transform: translateY(-24px) scale(0.9);
-            color: #667eea;
+        .form-input:hover {
+            border-color: #9ca3af;
+        }
+        .form-label {
+            transition: color 0.3s ease;
+        }
+        .loading-state {
+            opacity: 0.75;
+            pointer-events: none;
+        }
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            appearance: none;
         }
         .change-indicator {
             position: absolute;
@@ -69,48 +98,58 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+        .changed .form-input {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
     </style>
-</head>
-<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen py-8">
-    <!-- Navigation Breadcrumb -->
-    <div class="max-w-4xl mx-auto px-6 mb-6">
-        <nav class="flex items-center space-x-2 text-sm text-gray-600">
-            <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 transition-colors">
-                <i class="fas fa-home"></i> Dashboard
-            </a>
-            <i class="fas fa-chevron-right text-gray-400"></i>
-            <a href="{{ route('admin.stock') }}" class="hover:text-blue-600 transition-colors">Stock</a>
-            <i class="fas fa-chevron-right text-gray-400"></i>
-            <span class="text-gray-800 font-medium">Edit Barang</span>
-        </nav>
-    </div>
 
-    <!-- Main Form Container -->
-    <div class="max-w-4xl mx-auto px-6">
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden animate-slide-up">
-            <!-- Header Section -->
-            <div class="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 px-8 py-8">
+    <!-- Main Content -->
+    <div class="flex flex-col flex-1 overflow-y-auto">
+        <!-- Professional Header -->
+        <header class="gradient-bg text-white py-6 px-4 md:px-8 shadow-lg">
+            <div class="max-w-4xl mx-auto">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <div class="bg-white bg-opacity-20 p-4 rounded-2xl mr-6">
-                            <i class="fas fa-edit text-3xl text-white"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-3xl font-bold text-white mb-2">Edit Barang</h1>
-                            <p class="text-blue-100 text-lg">Perbarui informasi barang di inventaris</p>
-                        </div>
+                    <div class="animate-fade-in">
+                        <h1 class="text-3xl font-semibold mb-2 flex items-center">
+                            <i class="fas fa-edit mr-3 text-blue-200"></i>
+                            Edit Barang - {{ $stock->nama_barang }}
+                        </h1>
+                        <p class="opacity-90 text-base">Perbarui informasi barang di inventaris stock hotel</p>
                     </div>
-                    <div class="hidden md:block bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-4">
-                        <div class="text-white text-center">
-                            <div class="text-sm opacity-80">Item ID</div>
-                            <div class="text-xl font-bold">#{{ $stock->id }}</div>
+                    <div class="hidden md:block">
+                        <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3 border border-white border-opacity-20">
+                            <div class="text-white text-center">
+                                <div class="text-sm opacity-80">Item ID</div>
+                                <div class="text-xl font-bold">#{{ $stock->id }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </header>
 
-            <!-- Current Item Info -->
-            <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-8 py-4 border-b">
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto py-6 px-4 md:px-8 animate-fade-in">
+            <!-- Breadcrumb -->
+            <nav class="mb-6">
+                <div class="flex items-center text-sm text-gray-600">
+                    <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 transition-colors duration-200">
+                        <i class="fas fa-home mr-1"></i>
+                        Dashboard
+                    </a>
+                    <i class="fas fa-chevron-right mx-2 text-gray-400"></i>
+                    <a href="{{ route('admin.stock') }}" class="hover:text-blue-600 transition-colors duration-200">
+                        <i class="fas fa-boxes mr-1"></i>
+                        Stock Management
+                    </a>
+                    <i class="fas fa-chevron-right mx-2 text-gray-400"></i>
+                    <span class="text-gray-800 font-medium">Edit Barang</span>
+                </div>
+            </nav>
+
+            <!-- Current Item Info Card -->
+            <div class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 mb-6 border border-blue-100">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
                         <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
@@ -123,42 +162,66 @@
                     </div>
                     <div class="text-sm text-gray-500">
                         <i class="fas fa-clock mr-1"></i>
-                        Last updated: {{ $stock->updated_at ?? 'Never' }}
+                        Last updated: {{ $stock->updated_at ? $stock->updated_at->format('d M Y H:i') : 'Never' }}
                     </div>
                 </div>
             </div>
 
-            <!-- Form Section -->
-            <div class="p-8">
-                <form action="{{ route('admin.stock.update', $stock->id) }}" method="POST" id="editStockForm">
-                    @csrf
-                    @method('PUT')
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Nama Barang -->
-                        <div class="md:col-span-2">
-                            <div class="input-group relative">
-                                <input type="text" 
-                                       name="nama_barang" 
-                                       id="nama_barang"
-                                       value="{{ $stock->nama_barang }}"
-                                       placeholder=" "
-                                       data-original="{{ $stock->nama_barang }}"
-                                       class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus transition-all duration-300 text-gray-800 bg-gray-50 focus:bg-white"
-                                       required>
-                                <label for="nama_barang" class="floating-label absolute left-4 top-4 text-gray-500 pointer-events-none bg-white px-2 transform -translate-y-6 scale-90 text-blue-600">
-                                    <i class="fas fa-box mr-2"></i>Nama Barang
+            <!-- Form Card -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden card-hover border border-gray-200">
+                <!-- Card Header -->
+                <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-edit text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-gray-800">Edit Informasi Barang</h2>
+                            <p class="text-gray-600 text-sm">Update data barang sesuai kebutuhan inventaris</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="p-6">
+                    <form id="editStockForm" action="{{ route('admin.stock.update', $stock->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        
+                        <!-- Row 1: Nama Barang (Full Width) -->
+                        <div class="mb-6">
+                            <div class="space-y-2 relative">
+                                <label for="nama_barang" class="form-label block text-sm font-medium text-gray-700 flex items-center">
+                                    <i class="fas fa-box mr-2 text-gray-400"></i>
+                                    Nama Barang
+                                    <span class="text-red-500 ml-1">*</span>
                                 </label>
+                                <input type="text" 
+                                       id="nama_barang"
+                                       name="nama_barang" 
+                                       value="{{ $stock->nama_barang }}"
+                                       data-original="{{ $stock->nama_barang }}"
+                                       class="form-input w-full px-4 py-3 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                                       placeholder="Masukkan nama barang"
+                                       required>
                                 <div class="change-indicator"></div>
+                                <p class="text-xs text-gray-500">Berikan nama yang deskriptif dan mudah diidentifikasi</p>
                             </div>
                         </div>
 
-                        <!-- Kategori -->
-                        <div>
-                            <div class="input-group relative">
-                                <select name="kategori" 
-                                        id="kategori"
+                        <!-- Row 2: Kategori & Jumlah -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                            <!-- Kategori -->
+                            <div class="space-y-2 relative">
+                                <label for="kategori" class="form-label block text-sm font-medium text-gray-700 flex items-center">
+                                    <i class="fas fa-tags mr-2 text-gray-400"></i>
+                                    Kategori Barang
+                                    <span class="text-red-500 ml-1">*</span>
+                                </label>
+                                <select id="kategori"
+                                        name="kategori" 
                                         data-original="{{ $stock->kategori }}"
-                                        class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus transition-all duration-300 text-gray-800 bg-gray-50 focus:bg-white appearance-none"
+                                        class="form-input form-select w-full px-4 py-3 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         required>
                                     <option value="Furniture" {{ $stock->kategori == 'Furniture' ? 'selected' : '' }}>Furniture</option>
                                     <option value="Electronics" {{ $stock->kategori == 'Electronics' ? 'selected' : '' }}>Electronics</option>
@@ -169,45 +232,45 @@
                                     <option value="Maintenance" {{ $stock->kategori == 'Maintenance' ? 'selected' : '' }}>Maintenance</option>
                                     <option value="Other" {{ $stock->kategori == 'Other' ? 'selected' : '' }}>Other</option>
                                 </select>
-                                <label for="kategori" class="floating-label absolute left-4 top-4 text-gray-500 pointer-events-none bg-white px-2 transform -translate-y-6 scale-90 text-blue-600">
-                                    <i class="fas fa-tags mr-2"></i>Kategori
-                                </label>
-                                <i class="fas fa-chevron-down absolute right-4 top-5 text-gray-400 pointer-events-none"></i>
                                 <div class="change-indicator"></div>
+                                <p class="text-xs text-gray-500">Pilih kategori yang sesuai untuk kemudahan filtering</p>
                             </div>
-                        </div>
 
-                        <!-- Jumlah -->
-                        <div>
-                            <div class="input-group relative">
+                            <!-- Jumlah -->
+                            <div class="space-y-2 relative">
+                                <label for="jumlah" class="form-label block text-sm font-medium text-gray-700 flex items-center">
+                                    <i class="fas fa-sort-numeric-up mr-2 text-gray-400"></i>
+                                    Jumlah
+                                    <span class="text-red-500 ml-1">*</span>
+                                </label>
                                 <input type="number" 
-                                       name="jumlah" 
                                        id="jumlah"
+                                       name="jumlah" 
                                        value="{{ $stock->jumlah }}"
+                                       data-original="{{ $stock->jumlah }}"
                                        min="0"
                                        step="1"
-                                       placeholder=" "
-                                       data-original="{{ $stock->jumlah }}"
-                                       class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus transition-all duration-300 text-gray-800 bg-gray-50 focus:bg-white"
+                                       class="form-input w-full px-4 py-3 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                                       placeholder="Masukkan jumlah barang"
                                        required>
-                                <label for="jumlah" class="floating-label absolute left-4 top-4 text-gray-500 pointer-events-none bg-white px-2 transform -translate-y-6 scale-90 text-blue-600">
-                                    <i class="fas fa-sort-numeric-up mr-2"></i>Jumlah
-                                </label>
                                 <div class="change-indicator"></div>
-                            </div>
-                            <div class="mt-2 text-sm text-gray-500 flex items-center">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Jumlah saat ini: <span class="font-semibold ml-1">{{ $stock->jumlah }}</span>
+                                <p class="text-xs text-gray-500">Jumlah saat ini: <span class="font-semibold">{{ $stock->jumlah }}</span></p>
                             </div>
                         </div>
 
-                        <!-- Satuan -->
-                        <div>
-                            <div class="input-group relative">
-                                <select name="satuan" 
-                                        id="satuan"
+                        <!-- Row 3: Satuan -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                            <!-- Satuan -->
+                            <div class="space-y-2 relative">
+                                <label for="satuan" class="form-label block text-sm font-medium text-gray-700 flex items-center">
+                                    <i class="fas fa-balance-scale mr-2 text-gray-400"></i>
+                                    Satuan
+                                    <span class="text-red-500 ml-1">*</span>
+                                </label>
+                                <select id="satuan"
+                                        name="satuan" 
                                         data-original="{{ $stock->satuan }}"
-                                        class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus transition-all duration-300 text-gray-800 bg-gray-50 focus:bg-white appearance-none"
+                                        class="form-input form-select w-full px-4 py-3 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         required>
                                     <option value="pcs" {{ $stock->satuan == 'pcs' ? 'selected' : '' }}>Pieces (pcs)</option>
                                     <option value="set" {{ $stock->satuan == 'set' ? 'selected' : '' }}>Set</option>
@@ -218,91 +281,107 @@
                                     <option value="pack" {{ $stock->satuan == 'pack' ? 'selected' : '' }}>Pack</option>
                                     <option value="roll" {{ $stock->satuan == 'roll' ? 'selected' : '' }}>Roll</option>
                                 </select>
-                                <label for="satuan" class="floating-label absolute left-4 top-4 text-gray-500 pointer-events-none bg-white px-2 transform -translate-y-6 scale-90 text-blue-600">
-                                    <i class="fas fa-balance-scale mr-2"></i>Satuan
-                                </label>
-                                <i class="fas fa-chevron-down absolute right-4 top-5 text-gray-400 pointer-events-none"></i>
                                 <div class="change-indicator"></div>
+                                <p class="text-xs text-gray-500">Tentukan satuan yang sesuai untuk barang ini</p>
                             </div>
-                        </div>
 
-                        <!-- Custom Satuan Input (if needed) -->
-                        <div id="custom-satuan" class="hidden">
-                            <div class="input-group relative">
-                                <input type="text" 
-                                       name="custom_satuan" 
-                                       id="custom_satuan"
-                                       placeholder=" "
-                                       class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus transition-all duration-300 text-gray-800 bg-gray-50 focus:bg-white">
-                                <label for="custom_satuan" class="floating-label absolute left-4 top-4 text-gray-500 pointer-events-none bg-white px-2">
-                                    <i class="fas fa-edit mr-2"></i>Satuan Kustom
+                            <!-- Custom Satuan Input (if needed) -->
+                            <div id="custom-satuan" class="space-y-2 hidden">
+                                <label for="custom_satuan" class="form-label block text-sm font-medium text-gray-700 flex items-center">
+                                    <i class="fas fa-edit mr-2 text-gray-400"></i>
+                                    Satuan Kustom
+                                    <span class="text-red-500 ml-1">*</span>
                                 </label>
+                                <input type="text" 
+                                       id="custom_satuan"
+                                       name="custom_satuan" 
+                                       class="form-input w-full px-4 py-3 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                                       placeholder="Masukkan satuan kustom">
+                                <p class="text-xs text-gray-500">Masukkan satuan khusus sesuai kebutuhan</p>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Changes Summary -->
-                    <div id="changes-summary" class="hidden mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-                        <h4 class="font-semibold text-yellow-800 mb-2 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            Perubahan yang akan disimpan:
-                        </h4>
-                        <div id="changes-list" class="text-sm text-yellow-700"></div>
-                    </div>
+                        <!-- Changes Summary -->
+                        <div id="changes-summary" class="hidden mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Perubahan yang akan disimpan:
+                            </h4>
+                            <div id="changes-list" class="text-sm text-yellow-700"></div>
+                        </div>
 
-                    <!-- Form Actions -->
-                    <div class="flex flex-col sm:flux-row justify-between items-center pt-8 mt-8 border-t border-gray-200 gap-4">
-                        <a href="{{ route('admin.stock') }}" 
-                           class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center">
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            Kembali ke Daftar
-                        </a>
-                        <div class="flex gap-3 w-full sm:w-auto">
-                            <button type="button" 
-                                    id="resetBtn"
-                                    class="flex-1 sm:flex-none bg-yellow-100 hover:bg-yellow-200 text-yellow-700 px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center">
-                                <i class="fas fa-undo mr-2"></i>
-                                Reset
-                            </button>
+                        <!-- Form Actions -->
+                        <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200">
                             <button type="submit" 
                                     id="updateBtn"
-                                    class="flex-1 sm:flex-none btn-update text-white px-8 py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center transition-all duration-300">
-                                <i class="fas fa-save mr-2"></i>
-                                Update Barang
+                                    class="btn-primary text-white px-6 py-3 rounded-md font-medium shadow-sm flex items-center justify-center order-2 sm:order-1">
+                                <i class="fas fa-save mr-2 text-sm"></i>
+                                <span id="updateText">Update Barang</span>
                             </button>
+                            <button type="button" 
+                                    id="resetBtn"
+                                    class="btn-warning text-white px-6 py-3 rounded-md font-medium flex items-center justify-center order-3 sm:order-2">
+                                <i class="fas fa-undo mr-2 text-sm"></i>
+                                Reset Changes
+                            </button>
+                            <a href="{{ route('admin.stock') }}" 
+                               class="btn-secondary text-white px-6 py-3 rounded-md font-medium text-center flex items-center justify-center order-1 sm:order-3">
+                                <i class="fas fa-arrow-left mr-2 text-sm"></i>
+                                Kembali ke Daftar
+                            </a>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <!-- Quick Actions Card -->
-        <div class="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
-            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-magic text-purple-500 mr-2"></i>
-                Quick Actions
-            </h3>
-            <div class="grid md:grid-cols-3 gap-4">
-                <button type="button" onclick="adjustQuantity(-1)" class="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-center">
-                    <i class="fas fa-minus mr-2"></i>
-                    Kurangi 1
-                </button>
-                <button type="button" onclick="adjustQuantity(1)" class="bg-white hover:bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-center">
-                    <i class="fas fa-plus mr-2"></i>
-                    Tambah 1
-                </button>
-                <button type="button" onclick="setLowStock()" class="bg-white hover:bg-yellow-50 border border-yellow-200 text-yellow-600 px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-center">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    Set Low Stock
-                </button>
+            <!-- Quick Actions Card -->
+            <div class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-100">
+                <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-magic text-purple-500 mr-2"></i>
+                    Quick Actions
+                </h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button type="button" onclick="adjustQuantity(-1)" class="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-minus mr-2"></i>
+                        Kurangi 1
+                    </button>
+                    <button type="button" onclick="adjustQuantity(1)" class="bg-white hover:bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-plus mr-2"></i>
+                        Tambah 1
+                    </button>
+                    <button type="button" onclick="setLowStock()" class="bg-white hover:bg-yellow-50 border border-yellow-200 text-yellow-600 px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Set Low Stock
+                    </button>
+                </div>
             </div>
-        </div>
+
+            <!-- Help Card -->
+            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                        <i class="fas fa-lightbulb text-blue-600 text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-blue-800 mb-1">Tips Edit Barang</h3>
+                        <ul class="text-xs text-blue-700 space-y-1">
+                            <li>• Field yang berubah akan ditandai dengan indikator hijau</li>
+                            <li>• Gunakan Quick Actions untuk adjustment jumlah cepat</li>
+                            <li>• Reset Changes akan mengembalikan ke nilai asli</li>
+                            <li>• Pastikan semua perubahan sudah benar sebelum update</li>
+                            <li>• Perubahan akan tercatat dalam history sistem</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('editStockForm');
             const updateBtn = document.getElementById('updateBtn');
+            const updateText = document.getElementById('updateText');
             const resetBtn = document.getElementById('resetBtn');
             const changesSummary = document.getElementById('changes-summary');
             const changesList = document.getElementById('changes-list');
@@ -320,13 +399,14 @@
                 inputs.forEach(input => {
                     const original = originalValues[input.name];
                     const current = input.value;
-                    const container = input.closest('.input-group');
+                    const container = input.closest('.space-y-2');
                     
                     if (original !== current) {
                         container.classList.add('changed');
+                        const fieldLabel = container.querySelector('label').textContent.replace('*', '').trim();
                         changes.push({
                             field: input.name,
-                            label: input.previousElementSibling?.textContent || input.name,
+                            label: fieldLabel,
                             from: original,
                             to: current
                         });
@@ -340,16 +420,16 @@
                     changesSummary.classList.remove('hidden');
                     changesList.innerHTML = changes.map(change => 
                         `<div class="flex justify-between items-center py-1">
-                            <span class="font-medium">${change.label.replace(/[^\w\s]/gi, '')}:</span>
+                            <span class="font-medium">${change.label}:</span>
                             <span><span class="line-through text-red-600">${change.from}</span> → <span class="text-green-600">${change.to}</span></span>
                         </div>`
                     ).join('');
-                    updateBtn.classList.remove('btn-update');
-                    updateBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                    updateBtn.classList.remove('btn-primary');
+                    updateBtn.classList.add('btn-success');
                 } else {
                     changesSummary.classList.add('hidden');
-                    updateBtn.classList.add('btn-update');
-                    updateBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    updateBtn.classList.add('btn-primary');
+                    updateBtn.classList.remove('btn-success');
                 }
             }
 
@@ -365,16 +445,11 @@
                     inputs.forEach(input => {
                         const original = originalValues[input.name];
                         input.value = original;
-                        input.closest('.input-group').classList.remove('changed');
+                        input.closest('.space-y-2').classList.remove('changed');
                     });
                     changesSummary.classList.add('hidden');
+                    trackChanges();
                 }
-            });
-
-            // Form submission
-            form.addEventListener('submit', function(e) {
-                updateBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Mengupdate...';
-                updateBtn.disabled = true;
             });
 
             // Handle custom satuan
@@ -412,6 +487,19 @@
                 trackChanges();
             });
 
+            // Form submission with loading state
+            form.addEventListener('submit', function(e) {
+                // Show loading state
+                updateBtn.disabled = true;
+                updateBtn.classList.add('loading-state');
+                updateText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Mengupdate...';
+
+                // If using custom satuan, set the main satuan value
+                if (satuanSelect.value === 'custom' && customSatuanInput.value) {
+                    satuanSelect.value = customSatuanInput.value;
+                }
+            });
+
             // Initial change check
             trackChanges();
         });
@@ -431,5 +519,4 @@
             jumlahInput.dispatchEvent(new Event('input'));
         }
     </script>
-</body>
-</html>
+@endsection
