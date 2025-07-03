@@ -2,15 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\UnitController;
 
->>>>>>> 772c99cc0fba803d913f6735d2bccdb5c00fd1c2
 
 /*
 |--------------------------------------------------------------------------
@@ -27,17 +24,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-=======
 Route::get('/welcome2', function () {
     return view('welcome2');
 });
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
->>>>>>> 772c99cc0fba803d913f6735d2bccdb5c00fd1c2
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -47,13 +41,11 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-<<<<<<< HEAD
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
 });
-=======
 // Routes untuk Arsip
 Route::get('admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip.index');
 Route::get('admin/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
@@ -68,4 +60,21 @@ Route::resource('admin/unit', UnitController::class)->names([
     'update'  => 'admin.unit.update',
     'destroy' => 'admin.unit.destroy',
 ]);
->>>>>>> 772c99cc0fba803d913f6735d2bccdb5c00fd1c2
+
+Route::resource('admin/stock', StockController::class)->names([
+    'index'   => 'admin.stock',
+    'create'  => 'admin.stock.create',
+    'store'   => 'admin.stock.store',
+    'edit'    => 'admin.stock.edit',
+    'update'  => 'admin.stock.update',
+    'destroy' => 'admin.stock.destroy',
+]);
+
+// Routes untuk Memo
+Route::get('admin/memo', [MemoController::class, 'index'])->name('admin.memo.index');
+Route::get('admin/memo/create', [MemoController::class, 'create'])->name('memo.create');
+// Tambahkan route lain untuk memo sesuai kebutuhan
+
+// Routes untuk Arsip
+Route::get('admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip.index');
+Route::get('admin/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
