@@ -1,11 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\StockController;
-use App\Http\Controllers\MemoController;
-use App\Http\Controllers\ArsipController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -22,23 +18,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('admin/stock', StockController::class)->names([
-    'index'   => 'admin.stock',
-    'create'  => 'admin.stock.create',
-    'store'   => 'admin.stock.store',
-    'edit'    => 'admin.stock.edit',
-    'update'  => 'admin.stock.update',
-    'destroy' => 'admin.stock.destroy',
-]);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Routes untuk Memo
-Route::get('admin/memo', [MemoController::class, 'index'])->name('admin.memo.index');
-Route::get('admin/memo/create', [MemoController::class, 'create'])->name('memo.create');
-// Tambahkan route lain untuk memo sesuai kebutuhan
+require __DIR__.'/auth.php';
 
-// Routes untuk Arsip
-Route::get('admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip.index');
-Route::get('admin/arsip/create', [ArsipController::class, 'create'])->name('arsip.create');
-// Tambahkan route lain untuk arsip sesuai kebutuhan
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+});
