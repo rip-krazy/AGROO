@@ -7,6 +7,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\admin\UserController;
 
 
 /*
