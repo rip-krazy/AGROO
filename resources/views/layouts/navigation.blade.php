@@ -16,11 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
-                    @if(auth()->check() && auth()->user()->role === 'admin')
-                    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
-                        {{ __('Manajemen User') }}
-                    </x-nav-link>
-                    @endif
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                                {{ __('Manajemen User') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -77,11 +79,13 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             
-            @if(auth()->check() && auth()->user()->role === 'admin')
-            <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
-                {{ __('Manajemen User') }}
-            </x-responsive-nav-link>
-            @endif
+            @auth
+                @if(auth()->user()->isAdmin())
+                    <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                        {{ __('Manajemen User') }}
+                    </x-responsive-nav-link>
+                @endif
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
