@@ -74,6 +74,12 @@
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     <div class="flex items-center">
+                                        <i class="fas fa-barcode mr-2"></i>
+                                        ID Barang
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
                                         <i class="fas fa-box mr-2"></i>
                                         Nama Barang
                                     </div>
@@ -113,6 +119,9 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $stock->kode_barang }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900">{{ $stock->nama_barang }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -131,6 +140,11 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="flex items-center justify-center space-x-2">
+                                        <a href="{{ route('admin.stock.show', $stock->id) }}" 
+                                           class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm flex items-center transition-all duration-200">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Detail
+                                        </a>
                                         <a href="{{ route('admin.stock.edit', $stock->id) }}" 
                                            class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm flex items-center transition-all duration-200">
                                             <i class="fas fa-edit mr-1"></i>
@@ -151,7 +165,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center py-12">
+                                <td colspan="7" class="text-center py-12">
                                     <div class="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                                         <i class="fas fa-boxes text-2xl text-gray-400"></i>
                                     </div>

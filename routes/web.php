@@ -9,6 +9,7 @@ use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Admin\PanduanController;
+use App\Http\Controllers\KaryawanDashboardController;
 
 
 
@@ -31,13 +32,14 @@ Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-
-
-
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 Route::get('/welcome2', function () {
     return view('welcome2');
 });
+
+Route::get('/karyawan/dashboard', [KaryawanDashboardController::class, 'index'])->name('karyawan.dashboard');
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -76,7 +78,9 @@ Route::resource('admin/stock', StockController::class)->names([
     'edit'    => 'admin.stock.edit',
     'update'  => 'admin.stock.update',
     'destroy' => 'admin.stock.destroy',
+    'show' => 'admin.stock.show',
 ]);
+
 
 // Routes untuk Memo
 Route::get('admin/memo', [MemoController::class, 'index'])->name('admin.memo.index');

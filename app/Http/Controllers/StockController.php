@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class StockController extends Controller
 {
@@ -10,32 +12,21 @@ class StockController extends Controller
     {
         $search = $request->input('search');
         
-        // Build query with search functionality
         $query = Stock::query();
         
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('nama_barang', 'like', "%{$search}%")
+                  ->orWhere('kode_barang', 'like', "%{$search}%")
                   ->orWhere('kategori', 'like', "%{$search}%");
             });
         }
         
         $stocks = $query->latest()->paginate(10);
         
-        // PERBAIKAN: Hitung jumlah JENIS barang, bukan total quantity
-        $totalItems = $query->count(); // Jumlah jenis barang
-        
-        // Jika ingin menampilkan total quantity semua barang:
-        // $totalQuantity = $query->sum('jumlah');
-        
-        // Atau jika ingin menampilkan keduanya:
-        // $totalItems = $query->count(); // Jumlah jenis barang
-        // $totalQuantity = $query->sum('jumlah'); // Total quantity
-        
         return view('admin.stock.index', [
             'stocks' => $stocks,
-            'totalItems' => $totalItems, // Jumlah jenis barang
-            // 'totalQuantity' => $totalQuantity, // Total quantity semua barang
+            'totalItems' => $query->count(),
         ]);
     }
 
@@ -46,7 +37,6 @@ class StockController extends Controller
 
     public function store(Request $request) 
     {
-        // Validate and store the stock data
         $validatedData = $request->validate([
             'nama_barang' => 'required|string|max:255',
             'kategori' => 'required|string|max:255',
@@ -54,9 +44,13 @@ class StockController extends Controller
             'satuan' => 'required|string|max:50',
         ]);
 
+        // Generate kode barang berdasarkan nama dan timestamp
+        $prefix = strtoupper(substr(preg_replace('/[^a-zA-Z]/', '', $request->nama_barang), 0, 3));
+        $validatedData['kode_barang'] = $prefix . '-' . time();
+
         Stock::create($validatedData);
 
-        return redirect()->route('admin.stock')->with('success', 'Stock item created successfully.');
+        return redirect()->route('admin.stock')->with('success', 'Barang berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -70,7 +64,7 @@ class StockController extends Controller
         $validatedData = $request->validate([
             'nama_barang' => 'required|string|max:255',
             'kategori' => 'required|string|max:255',
-            'jumlah' => 'required|integer|min:1',
+            'jumlah' => 'required|integer|min:0',
             'satuan' => 'required|string|max:50',
         ]);
 
@@ -86,5 +80,12 @@ class StockController extends Controller
         $stock->delete();
 
         return redirect()->route('admin.stock')->with('success', 'Data berhasil dihapus.');
+    }
+
+    // Detail barang
+    public function show($id)
+    {
+        $stock = Stock::findOrFail($id);
+        return view('admin.stock.show', compact('stock'));
     }
 }

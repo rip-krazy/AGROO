@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_barang'); // Nama barang
-            $table->string('kategori'); // Kategori barang (misalnya: Linen, Peralatan, dll)
-            $table->integer('jumlah'); // Jumlah stok
-            $table->string('satuan', 50); // Satuan (pcs, unit, liter, dll)
+            $table->string('kode_barang')->unique(); // ID unik untuk setiap barang
+            $table->string('nama_barang');
+            $table->string('kategori');
+            $table->integer('jumlah');
+            $table->string('satuan', 50);
             $table->timestamps();
         });
     }
