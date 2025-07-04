@@ -8,6 +8,8 @@ use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Admin\PanduanController;
+
 
 
 /*
@@ -25,8 +27,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
+
+
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/welcome2', function () {
     return view('welcome2');
