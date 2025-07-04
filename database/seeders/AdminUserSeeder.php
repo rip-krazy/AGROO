@@ -12,9 +12,10 @@ class AdminUserSeeder extends Seeder
     {
         User::create([
             'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('password'), // Sekarang Hash akan dikenali
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
             'role' => 'admin',
+            'jabatan' => 'Administrator'
         ]);
     }
 }

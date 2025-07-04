@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -16,19 +17,24 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $roles = UserRole::cases();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'role' => 'required|in:admin,user',
+        $validated = $request->validate([
+            'role' => 'required|in:' . implode(',', UserRole::values()),
+            'jabatan' => 'nullable|string|max:255',
         ]);
 
-        $user->update([
-            'role' => $request->role,
-        ]);
+        // Jika role diubah menjadi karyawan, pastikan ada jabatan
+        if ($validated['role'] === UserRole::KARYAWAN->value && empty($validated['jabatan'])) {
+            return back()->withErrors(['jabatan' => 'Jabatan harus diisi untuk role karyawan']);
+        }
 
-        return redirect()->route('admin.users.index')->with('success', 'Role user berhasil diupdate');
+        $user->update($validated);
+
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
     }
 }

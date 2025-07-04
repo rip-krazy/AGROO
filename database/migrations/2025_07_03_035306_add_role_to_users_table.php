@@ -9,7 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user'); // 'admin' atau 'user'
+            $table->string('role')->default('user');
+            $table->string('jabatan')->nullable(); // Kolom baru untuk karyawan
         });
     }
 
@@ -17,6 +18,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('role');
+            $table->dropColumn('jabatan');
         });
     }
 };
